@@ -1,0 +1,40 @@
+<%= form_with(model: product, local: true, class: "space-y-4") do |form| %>
+  <% if product.errors.any? %>
+    <div class="alert alert-warning">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+      <ul>
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "block font-medium" %>
+    <%= form.text_field :name, class: "input input-bordered w-full" %>
+  </div>
+
+  <div>
+    <%= form.label :description, class: "block font-medium" %>
+    <%= form.text_area :description, rows: 3, class: "textarea textarea-bordered w-full" %>
+  </div>
+
+  <div>
+    <%= form.label :image, "Image URL", class: "block font-medium" %>
+    <%= form.text_field :image, class: "input input-bordered w-full" %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= form.label :price, class: "block font-medium" %>
+      <%= form.number_field :price, step: 0.01, class: "input input-bordered w-full" %>
+    </div>
+    <div>
+      <%= form.label :stock, class: "block font-medium" %>
+      <%= form.number_field :stock, class: "input input-bordered w-full" %>
+    </div>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>

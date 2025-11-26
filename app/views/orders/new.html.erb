@@ -1,0 +1,28 @@
+<% content_for :title, "New order" %>
+
+<% if @order.nil? %>
+  <p>No pending order found.</p>
+  <%= link_to "Back to products", products_path, class: "link link-primary" %>
+  <% return %>
+<% end %>
+
+<ul>
+  <% @order.cart_items.each do |item| %>
+    <li>
+      <%= render item %>
+    </li>
+  <% end %>
+</ul>
+<div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+  <div class="flex justify-between text-base font-medium text-gray-900">
+    <p>Subtotal</p>
+    <p>$<%= @order.cart_items.sum { |item| item.product.price * item.quantity } %></p>
+  </div>
+  <p class="mt-0.5 text-sm text-gray-500">Shipping address and payment method are not needed.</p>
+</div>
+
+<%= render "form", order: @order %>
+
+<div class="mt-4">
+  <%= link_to "Back to products", products_path, class: "link link-primary" %>
+</div>

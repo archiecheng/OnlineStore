@@ -1,0 +1,14 @@
+<% @cart.cart_items.each do |item| %>
+  <%= render item %>
+<% end %>
+
+<div class="border-t border-gray-200 px-4 py-6">
+  <div class="flex justify-between text-base font-medium text-gray-900">
+    <p>Subtotal</p>
+    <p>$<%= @cart.cart_items.sum { |item| item.product.price * item.quantity } %></p>
+  </div>
+  <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+  <div class="mt-6">
+    <%= button_to "Checkout", orders_path, method: :post, class: "btn btn-block bg-red-400 text-white" %>
+  </div>
+</div>

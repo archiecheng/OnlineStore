@@ -1,0 +1,30 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg", class: "mx-auto h-10 w-auto" %>
+    <h2 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <%= form_with url: login_path, method: :post, local: true, class: "space-y-6" do %>
+      <div>
+        <%= label_tag :name, "Username", class: "block text-sm font-medium text-gray-900" %>
+        <%= text_field_tag :name, "", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-red-400" %>
+      </div>
+
+      <div>
+        <%= label_tag :password, "Password", class: "block text-sm font-medium text-gray-900" %>
+        <%= password_field_tag :password, "", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-red-400" %>
+      </div>
+
+      <% if flash[:alert].present? %>
+        <p class="text-sm text-center font-medium text-red-700"><%= flash[:alert] %></p>
+      <% end %>
+
+      <%= submit_tag "Sign In", class: "flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500" %>
+    <% end %>
+    <p class="mt-10 text-center text-sm text-gray-500">
+      Not a member?
+      <%= link_to "Create a new account", signup_path, class: "font-semibold text-red-400 hover:text-red-300" %>
+    </p>
+  </div>
+</div>

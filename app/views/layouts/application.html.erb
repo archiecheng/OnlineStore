@@ -1,28 +1,65 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Store App" %></title>
+    <title><%= content_for(:title) || "StoreApp" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Store App">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-slate-50 min-h-screen p-4">
+    <div class="navbar bg-base-100 shadow-xl rounded-xl mb-6">
+      <div class="flex-1">
+        <%= link_to "StoreApp", root_path, class: "btn btn-ghost text-xl" %>
+      </div>
+      <div class="flex-none gap-4">
+        <div class="form-control">
+          <%= form_with url: search_products_path, method: :get, local: true do %>
+            <%= text_field_tag :query, params[:query], placeholder: "Search", class: "input input-bordered w-24 md:w-auto" %>
+          <% end %>
+        </div>
+        <% if current_user && !admin_user? %>
+          <%= link_to "Cart", cart_path(current_user.cart), class: "btn btn-ghost" %>
+        <% end %>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+            <div class="w-10 rounded-full">
+              <img alt="avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            <% if current_user %>
+              <li><%= link_to "Profile", user_path(current_user) %></li>
+              <li><%= link_to "Order History", orders_path %></li>
+              <li><%= link_to "Logout", logout_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to "Sign In", login_path %></li>
+              <li><%= link_to "Sign Up", signup_path %></li>
+            <% end %>
+            <% if admin_user? %>
+              <li><span class="badge badge-warning">Admin</span></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <% if flash[:notice] %>
+      <div class="alert alert-success mb-4"><%= flash[:notice] %></div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert alert-warning mb-4"><%= flash[:alert] %></div>
+    <% end %>
+
+    <div class="container mx-auto">
+      <%= yield %>
+    </div>
   </body>
 </html>

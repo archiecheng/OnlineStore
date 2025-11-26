@@ -1,0 +1,30 @@
+<% content_for :title, "Orders" %>
+
+<h1 class="text-3xl mb-4">Orders</h1>
+
+<div class="overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Order Id</th>
+        <th>Books</th>
+        <th>Total Price</th>
+        <th>Purchase Time</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each_with_index do |order, i| %>
+        <tr class="hover">
+          <th><%= i + 1 %></th>
+          <td><%= order.id %></td>
+          <td><%= order.cart_items.map { |item| item.product.name }.join(", ") %></td>
+          <td>$<%= order.total_price %></td>
+          <td><%= order.created_at %></td>
+          <td><%= link_to "Show", order, class: "btn btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

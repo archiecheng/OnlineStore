@@ -1,0 +1,28 @@
+<div id="<%= dom_id order %>">
+  <h1 class="text-3xl">Order #<%= order.id %></h1>
+  <br>
+  <div class="overflow-x-auto rounded-md outline outline-gray-200">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Book Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.cart_items.each_with_index do |item, i| %>
+          <tr class="hover">
+            <th><%= i + 1 %></th>
+            <td><%= image_tag(item.product.image.presence || "https://via.placeholder.com/80", class: "max-w-24") %></td>
+            <td><%= item.product.name %></td>
+            <td>$<%= item.product.price %></td>
+            <td><%= item.quantity %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

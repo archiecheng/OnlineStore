@@ -1,0 +1,30 @@
+<% content_for :title, "Products" %>
+
+<% if admin_user? %>
+  <div class="join pb-4">
+    <%= link_to "Create new product", new_product_path, class: "btn join-item btn-warning" %>
+    <%= link_to "Show all orders", orders_path, class: "btn join-item btn-warning" %>
+  </div>
+<% end %>
+
+<div id="products" class="grid grid-cols-1 gap-6">
+  <% @products.each do |product| %>
+    <div class="card card-side bg-base-100 shadow-lg p-4 outline outline-slate-200 hover:outline-red-200">
+      <figure class="box-content max-w-44 p-2">
+        <%= image_tag(product.image.presence || "https://via.placeholder.com/150", class: "max-w-44") %>
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title"><%= product.name %></h2>
+        <p class="max-w-4xl line-clamp-4 overflow-wrap break-words"><%= product.description %></p>
+        <p class="text-lg font-semibold">$<%= product.price %></p>
+        <div class="card-actions justify-end">
+          <%= link_to "View", product, class: "btn" %>
+          <%= form_with url: cart_items_path, method: :post, local: true do |form| %>
+            <%= form.hidden_field :product_id, value: product.id %>
+            <%= form.submit "Add to Cart", class: "btn bg-red-400 text-white" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
