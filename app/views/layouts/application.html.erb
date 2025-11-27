@@ -71,6 +71,11 @@
             </div>
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content bg-white rounded-xl shadow-lg border border-gray-100 z-[1] mt-3 w-52 p-2">
+            <% if admin_user? %>
+              <li class="pb-2">
+                <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide">Admin</span>
+              </li>
+            <% end %>
             <% if current_user %>
               <li><%= link_to "Profile", user_path(current_user) %></li>
               <li><%= link_to "Order History", orders_path %></li>
@@ -78,9 +83,6 @@
             <% else %>
               <li><%= link_to "Sign In", login_path %></li>
               <li><%= link_to "Sign Up", signup_path %></li>
-            <% end %>
-            <% if admin_user? %>
-              <li class="pt-2"><span class="badge badge-warning">Admin</span></li>
             <% end %>
           </ul>
         </div>
