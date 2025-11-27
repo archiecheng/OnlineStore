@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :orders, only: [:index, :new, :create, :show, :update]
-  resources :cart_items, only: [:create, :destroy, :show, :edit]
+  resources :cart_items, only: [:create, :destroy, :show, :edit, :update]
   resources :carts, only: [:show] do
     post :add_product
   end
@@ -18,4 +18,3 @@ Rails.application.routes.draw do
 
   root "products#index"
 end
-

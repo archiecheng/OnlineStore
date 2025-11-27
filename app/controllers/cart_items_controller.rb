@@ -16,10 +16,24 @@ class CartItemsController < ApplicationController
   end
 
   def update
-    if @cart_item.update(cart_item_params)
-      redirect_to cart_path(@cart_item.cart || current_user.cart), notice: "Cart item was successfully updated."
+    direction = params[:direction]
+    if direction == "increment"
+      @cart_item.increment!(:quantity)
+      redirect_to cart_path(current_user.cart), notice: "Updated quantity."
+    elsif direction == "decrement"
+      if @cart_item.quantity > 1
+        @cart_item.decrement!(:quantity)
+        redirect_to cart_path(current_user.cart), notice: "Updated quantity."
+      else
+        @cart_item.destroy
+        redirect_to cart_path(current_user.cart), notice: "Item removed."
+      end
     else
-      render :edit, status: :unprocessable_entity
+      if @cart_item.update(cart_item_params)
+        redirect_to cart_path(@cart_item.cart || current_user.cart), notice: "Cart item was successfully updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
   end
 

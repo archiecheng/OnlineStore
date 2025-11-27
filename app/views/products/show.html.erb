@@ -1,28 +1,31 @@
 <% content_for :title, @product.name %>
 
-<div class="card bg-base-100 shadow-xl p-6">
-  <div class="flex gap-6">
-    <div class="max-w-64">
-      <%= image_tag(@product.image.presence || "https://via.placeholder.com/200", class: "rounded") %>
+<div class="grid md:grid-cols-2 gap-8 items-start">
+  <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+    <div class="aspect-[4/5] bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
+      <%= image_tag(@product.image.presence || "https://via.placeholder.com/400", class: "w-full h-full object-cover") %>
     </div>
-    <div class="flex-1 space-y-3">
-      <h1 class="text-3xl font-bold"><%= @product.name %></h1>
-      <p class="text-lg">$<%= @product.price %></p>
-      <p class="text-gray-700"><%= @product.description %></p>
-      <div class="flex gap-3">
-        <%= form_with url: cart_items_path, method: :post, local: true do |form| %>
-          <%= form.hidden_field :product_id, value: @product.id %>
-          <%= form.submit "Add to Cart", class: "btn bg-red-400 text-white" %>
-        <% end %>
-        <% if admin_user? %>
-          <%= link_to "Edit", edit_product_path(@product), class: "btn" %>
-          <%= link_to "Delete", @product, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-error" %>
-        <% end %>
-      </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 space-y-4">
+    <p class="text-sm uppercase tracking-[0.2em] text-indigo-600 font-semibold">Book</p>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight"><%= @product.name %></h1>
+    <p class="text-3xl font-semibold text-indigo-700">$<%= @product.price %></p>
+    <p class="text-gray-700 leading-relaxed"><%= @product.description %></p>
+
+    <div class="flex flex-wrap gap-3 pt-2">
+      <%= form_with url: cart_items_path, method: :post, local: true do |form| %>
+        <%= form.hidden_field :product_id, value: @product.id %>
+        <%= form.submit "Add to Cart", class: "px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md transition" %>
+      <% end %>
+      <% if admin_user? %>
+        <%= link_to "Edit", edit_product_path(@product), class: "px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 text-gray-800 font-medium" %>
+        <%= link_to "Delete", @product, method: :delete, data: { confirm: "Are you sure?" }, class: "px-4 py-3 rounded-xl bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 font-medium" %>
+      <% end %>
     </div>
   </div>
 </div>
 
-<div class="mt-4">
-  <%= link_to "Back to products", products_path, class: "link link-primary" %>
+<div class="mt-6">
+  <%= link_to "← Back to products", products_path, class: "text-indigo-600 hover:text-indigo-800 font-medium" %>
 </div>

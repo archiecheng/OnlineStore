@@ -1,30 +1,37 @@
 <% content_for :title, "Orders" %>
 
-<h1 class="text-3xl mb-4">Orders</h1>
+<div class="space-y-4">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">Orders</h1>
+    <p class="text-gray-600">History of your purchases.</p>
+  </div>
 
-<div class="overflow-x-auto">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Order Id</th>
-        <th>Books</th>
-        <th>Total Price</th>
-        <th>Purchase Time</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @orders.each_with_index do |order, i| %>
-        <tr class="hover">
-          <th><%= i + 1 %></th>
-          <td><%= order.id %></td>
-          <td><%= order.cart_items.map { |item| item.product.name }.join(", ") %></td>
-          <td>$<%= order.total_price %></td>
-          <td><%= order.created_at %></td>
-          <td><%= link_to "Show", order, class: "btn btn-sm" %></td>
+  <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-100">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Order Id</th>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Books</th>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+          <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody class="divide-y divide-gray-100 bg-white">
+        <% @orders.each_with_index do |order, i| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-sm text-gray-700"><%= i + 1 %></td>
+            <td class="px-4 py-3 text-sm text-gray-900 font-semibold">#<%= order.id %></td>
+            <td class="px-4 py-3 text-sm text-gray-700"><%= order.cart_items.map { |item| item.product.name }.join(", ") %></td>
+            <td class="px-4 py-3 text-sm font-semibold text-indigo-700">$<%= order.total_price %></td>
+            <td class="px-4 py-3 text-sm text-gray-600"><%= order.created_at.strftime("%b %d, %Y %H:%M") %></td>
+            <td class="px-4 py-3 text-right">
+              <%= link_to "Show", order, class: "px-3 py-2 rounded-lg border border-gray-200 text-sm font-semibold hover:border-indigo-300" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

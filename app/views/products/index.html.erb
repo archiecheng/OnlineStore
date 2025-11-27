@@ -1,30 +1,33 @@
-<% content_for :title, "Products" %>
+<% content_for :title, "Online Store" %>
 
 <% if admin_user? %>
-  <div class="join pb-4">
-    <%= link_to "Create new product", new_product_path, class: "btn join-item btn-warning" %>
-    <%= link_to "Show all orders", orders_path, class: "btn join-item btn-warning" %>
+  <div class="flex flex-wrap gap-3 pb-6">
+    <%= link_to "Create new product", new_product_path, class: "px-4 py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 shadow-sm" %>
+    <%= link_to "Show all orders", orders_path, class: "px-4 py-2 rounded-lg bg-slate-800 text-white hover:bg-slate-900 shadow-sm" %>
   </div>
 <% end %>
 
-<div id="products" class="grid grid-cols-1 gap-6">
+<div id="products" class="max-w-screen-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pl-4 sm:pl-6 lg:pl-10 xl:pl-16">
   <% @products.each do |product| %>
-    <div class="card card-side bg-base-100 shadow-lg p-4 outline outline-slate-200 hover:outline-red-200">
-      <figure class="box-content max-w-44 p-2">
-        <%= image_tag(product.image.presence || "https://via.placeholder.com/150", class: "max-w-44") %>
-      </figure>
-      <div class="card-body">
-        <h2 class="card-title"><%= product.name %></h2>
-        <p class="max-w-4xl line-clamp-4 overflow-wrap break-words"><%= product.description %></p>
-        <p class="text-lg font-semibold">$<%= product.price %></p>
-        <div class="card-actions justify-end">
-          <%= link_to "View", product, class: "btn" %>
-          <%= form_with url: cart_items_path, method: :post, local: true do |form| %>
-            <%= form.hidden_field :product_id, value: product.id %>
-            <%= form.submit "Add to Cart", class: "btn bg-red-400 text-white" %>
-          <% end %>
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition overflow-hidden flex flex-col">
+      <%= link_to product_path(product), class: "block flex-1 flex flex-col h-full" do %>
+        <div class="aspect-[4/5] bg-gray-100">
+          <%= image_tag(product.image.presence || "https://via.placeholder.com/400", class: "w-full h-full object-cover") %>
         </div>
-      </div>
+        <div class="p-5 flex-1 flex flex-col space-y-2">
+          <h2 class="text-xl font-semibold text-gray-900 truncate"><%= product.name %></h2>
+          <p class="text-sm text-gray-600 truncate mb-2"><%= product.description %></p>
+          <div class="flex items-center justify-start mt-auto gap-3">
+            <p class="text-2xl font-bold text-indigo-700">$<%= product.price %></p>
+          </div>
+          <div class="pt-2">
+            <%= form_with url: cart_items_path, method: :post, local: true do |form| %>
+              <%= form.hidden_field :product_id, value: product.id %>
+              <%= form.submit "Add to Cart", class: "w-full h-12 px-4 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm flex items-center justify-center cursor-pointer" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

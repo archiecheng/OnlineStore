@@ -1,12 +1,23 @@
 <% content_for :title, @user.name %>
 
-<div class="card bg-base-100 shadow-xl p-6">
-  <h1 class="text-2xl font-bold mb-2"><%= @user.name %></h1>
-  <p class="text-gray-700"><%= @user.email %></p>
-  <p class="mt-2"><strong>Admin:</strong> <%= @user.admin? ? "Yes" : "No" %></p>
-</div>
+<div class="grid md:grid-cols-3 gap-6">
+  <div class="md:col-span-1 bg-white rounded-2xl shadow-lg border border-gray-100 p-6 space-y-2">
+    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center text-xl font-bold text-indigo-700">
+      <%= @user.name.first&.upcase %>
+    </div>
+    <h1 class="text-2xl font-bold text-gray-900"><%= @user.name %></h1>
+    <p class="text-gray-600"><%= @user.email %></p>
+    <p class="text-sm text-gray-500"><strong>Admin:</strong> <%= @user.admin? ? "Yes" : "No" %></p>
+  </div>
 
-<div class="mt-4 flex gap-3">
-  <%= link_to "View Cart", cart_path(@user.cart), class: "btn" if @user.cart %>
-  <%= link_to "Order History", orders_path, class: "btn" %>
+  <div class="md:col-span-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-6 space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900">Quick actions</h2>
+    <div class="flex flex-wrap gap-3">
+      <% if @user.cart %>
+        <%= link_to "View Cart", cart_path(@user.cart), class: "px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm" %>
+      <% end %>
+      <%= link_to "Order History", orders_path, class: "px-4 py-3 rounded-xl border border-gray-200 hover:border-indigo-300 text-gray-800 font-semibold" %>
+      <%= link_to "Continue shopping", products_path, class: "px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold" %>
+    </div>
+  </div>
 </div>

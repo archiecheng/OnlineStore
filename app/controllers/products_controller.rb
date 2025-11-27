@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
       query = params[:query].downcase
       @products = Product.where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", "%#{query}%", "%#{query}%")
     else
-      @products = Product.none
+      @products = Product.all
     end
     render :index
   end

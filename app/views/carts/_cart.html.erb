@@ -1,14 +1,17 @@
-<% @cart.cart_items.each do |item| %>
-  <%= render item %>
-<% end %>
-
-<div class="border-t border-gray-200 px-4 py-6">
-  <div class="flex justify-between text-base font-medium text-gray-900">
-    <p>Subtotal</p>
-    <p>$<%= @cart.cart_items.sum { |item| item.product.price * item.quantity } %></p>
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden max-w-6xl mx-auto">
+  <div class="divide-y divide-gray-100">
+    <% @cart.cart_items.each do |item| %>
+      <%= render item %>
+    <% end %>
   </div>
-  <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-  <div class="mt-6">
-    <%= button_to "Checkout", orders_path, method: :post, class: "btn btn-block bg-red-400 text-white" %>
+  <div class="px-6 py-5 bg-gray-50 border-t border-gray-100">
+    <div class="flex justify-between text-base font-semibold text-gray-900">
+      <p>Subtotal</p>
+      <p>$<%= @cart.cart_items.sum { |item| item.product.price * item.quantity } %></p>
+    </div>
+    <p class="mt-1 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+    <div class="mt-4">
+      <%= button_to "Proceed to Checkout", orders_path, method: :post, class: "w-full px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md transition" %>
+    </div>
   </div>
 </div>

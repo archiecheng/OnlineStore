@@ -1,20 +1,26 @@
-<div id="<%= dom_id cart_item %>" class="flex py-6 border-b border-gray-200">
-  <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-    <%= image_tag(cart_item.product.image.presence || "https://via.placeholder.com/100", class: "size-full object-cover") %>
+<div id="<%= dom_id cart_item %>" class="flex gap-4 py-4 px-4 border-b border-gray-100 items-center">
+  <div class="w-24 h-24 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
+    <%= image_tag(cart_item.product.image.presence || "https://via.placeholder.com/120", class: "w-full h-full object-cover") %>
   </div>
 
-  <div class="ml-4 flex flex-1 flex-col">
-    <div class="flex justify-between text-base font-medium text-gray-900">
-      <h3 class="truncate max-w-sm">
-        <%= link_to cart_item.product.name, product_path(cart_item.product) %>
-      </h3>
-      <p class="ml-4">$<%= cart_item.product.price %></p>
-    </div>
-    <div class="flex flex-1 items-end justify-between text-sm">
-      <p class="text-gray-500">Qty <%= cart_item.quantity %></p>
-      <div class="flex gap-2">
-        <%= button_to "Remove", cart_item_path(cart_item), method: :delete, data: { confirm: "Remove item?" }, class: "btn btn-sm btn-outline" %>
+  <div class="flex-1 flex flex-col">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900"><%= link_to cart_item.product.name, product_path(cart_item.product), class: "hover:text-indigo-600" %></h3>
+        <div class="mt-2 flex items-center gap-2">
+          <span class="text-sm text-gray-500">Quantity:</span>
+          <div class="inline-flex items-center rounded-lg border border-gray-200 overflow-hidden">
+            <%= button_to "-", cart_item_path(cart_item, direction: "decrement"), method: :patch, class: "px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100" %>
+            <span class="px-4 py-2 text-sm font-semibold text-gray-900 border-l border-r border-gray-200 select-none"><%= cart_item.quantity %></span>
+            <%= button_to "+", cart_item_path(cart_item, direction: "increment"), method: :patch, class: "px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100" %>
+          </div>
+        </div>
       </div>
+      <p class="text-lg font-semibold text-indigo-700 pr-2">$<%= cart_item.product.price %></p>
+    </div>
+    <div class="mt-auto flex justify-between items-center pt-3">
+      <p class="text-sm text-gray-500">Subtotal: <span class="font-semibold text-gray-800">$<%= cart_item.product.price * cart_item.quantity %></span></p>
+      <%= button_to "Remove", cart_item_path(cart_item), method: :delete, data: { confirm: "Remove item?" }, class: "px-4 py-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-sm font-medium mr-2" %>
     </div>
   </div>
 </div>
